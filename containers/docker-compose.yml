@@ -1,0 +1,25 @@
+version: '3'
+services:
+  db:
+    build: ./db
+    environment:
+      MYSQL_ROOT_PASSWORD: passw0rd
+  kvs:
+    build: ./kvs
+    command: redis-server --requirepass 'passw0rd'
+  webapp:
+    build: ./webapp
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PASS: passw0rd
+      MYSQL_USER: root
+      REDIS_HOST: kvs
+      REDIS_PASS: passw0rd
+    depends_on:
+      - db
+      - kvs
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./webapp:/webapp
