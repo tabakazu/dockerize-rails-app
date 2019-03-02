@@ -17,7 +17,7 @@ $ docker-compose run --rm webapp bundle exec rails db:create db:migrate
 
 Launched webapp container
 ```bash
-$ docker-compose up webapp
+$ docker-compose up web webapp
 ```
 
 Stop project's containers
