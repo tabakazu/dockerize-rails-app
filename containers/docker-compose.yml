@@ -9,15 +9,22 @@ services:
     command: redis-server --requirepass 'passw0rd'
   web:
     build: ./web
+    depends_on:
+      - webapp
     ports:
-      - '80:80'
+      - '8080:80'
+    volumes:
+      - ./webapp/tmp/sockets:/tmp/sockets
   webapp:
     build: ./webapp
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: bundle exec rails s
     environment:
       MYSQL_HOST: db
       MYSQL_PASS: passw0rd
       MYSQL_USER: root
+      RAILS_ENV: "${RAILS_ENV}"
+      RAILS_MASTER_KEY: "${RAILS_MASTER_KEY}"
+      RAILS_SOCKET: 'unix:///webapp/tmp/sockets/webapp.sock'
       REDIS_HOST: kvs
       REDIS_PASS: passw0rd
     depends_on:
