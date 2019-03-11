@@ -19,4 +19,4 @@ RUN bundle install --jobs 4 --retry 3 && \
 
 COPY . /webapp
 
-EXPOSE 3000
+CMD ["bundle", "exec", "rails", "s"]

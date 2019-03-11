@@ -17,7 +17,6 @@ services:
       - ./webapp/tmp/sockets:/tmp/sockets
   webapp:
     build: ./webapp
-    command: bundle exec rails s
     environment:
       MYSQL_HOST: db
       MYSQL_PASS: passw0rd
@@ -32,3 +31,4 @@ services:
       - kvs
     volumes:
       - ./webapp:/webapp
+      - /webapp/tmp/pids/
