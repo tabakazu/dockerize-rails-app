@@ -5,19 +5,14 @@ Build project's container images
 $ docker-compose build
 ```
 
-Launched db and kvs container
+Launched project's containers
 ```bash
-$ docker-compose up -d db kvs
+$ docker-compose up -d
 ```
 
 Create project's database
 ```bash
 $ docker-compose run --rm webapp bundle exec rails db:create db:migrate
-```
-
-Launched webapp container
-```bash
-$ docker-compose up web webapp
 ```
 
 Stop project's containers
