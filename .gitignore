@@ -19,3 +19,12 @@ Thumbs.db
 /containers/webapp/yarn-error.log
 /containers/webapp/public/assets
 /containers/webapp/config/master.key
+
+.terraform
+terraform.tfvars
+terraform.tfstate
+terraform.tfstate.*
+
+/aws/*/.terraform/
+/aws/*/terraform.*
+!/aws/*/terraform.tfvars.exmaple
