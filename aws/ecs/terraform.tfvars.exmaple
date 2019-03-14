@@ -1,0 +1,21 @@
+vpc_id          = "vpc-00000000"
+subnets         = ["subnet-00000000","subnet-11111111"]
+security_groups = ["sg-00000000","sg-11111111"]
+
+task_role_arn      = "arn:aws:iam::000000000000:role/ecsTaskExecutionRole"
+execution_role_arn = "arn:aws:iam::000000000000:role/ecsTaskExecutionRole"
+
+images = {
+  "web"    = "000000000000.dkr.ecr.ap-northeast-1.amazonaws.com/dockerize-webapp-demo/web:latest"
+  "webapp" = "000000000000.dkr.ecr.ap-northeast-1.amazonaws.com/dockerize-webapp-demo/webapp:latest"
+}
+
+rds = {
+  "host"     = "webapp-demo.xxxxxxxxxxxx.ap-northeast-1.rds.amazonaws.com"
+  "password" = "password"
+  "user"     = "dbuser"
+}
+
+elasticache = {
+  "host"     = "webapp-demo.xxxxxxxxx.0001.apne1.cache.amazonaws.com"
+}
