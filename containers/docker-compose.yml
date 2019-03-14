@@ -6,7 +6,6 @@ services:
       MYSQL_ROOT_PASSWORD: passw0rd
   kvs:
     build: ./kvs
-    command: redis-server --requirepass 'passw0rd'
   web:
     build: ./web
     depends_on:
@@ -25,7 +24,6 @@ services:
       RAILS_MASTER_KEY: "${RAILS_MASTER_KEY}"
       RAILS_SOCKET: 'unix:///webapp/tmp/sockets/webapp.sock'
       REDIS_HOST: kvs
-      REDIS_PASS: passw0rd
     depends_on:
       - db
       - kvs

@@ -30,7 +30,6 @@ module Webapp
       host: ENV['REDIS_HOST'] || 'localhost',
       port: 6379,
       db: 0,
-      password: ENV['REDIS_PASS'] || '',
       namespace: 'cache'
     }, {
       expires_in: 1.days
@@ -42,7 +41,6 @@ module Webapp
           host: ENV['REDIS_HOST'] || 'localhost',
           port: 6379,
           db: 0,
-          password: ENV['REDIS_PASS'] || '',
           namespace: 'session'
         },
       ],
