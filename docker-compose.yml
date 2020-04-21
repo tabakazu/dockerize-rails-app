@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  app: &app
+    build:
+      context: .
+      dockerfile: ./.dockerdev/rails/Dockerfile
+    tmpfs:
+      - /tmp
+
+  backend: &backend
+    <<: *app
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app:cached
+      - rails_cache:/app/tmp/cache
+      - bundle:/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+    environment:
+      # - DATABASE_URL=mysql2://root:root@mysql:3306
+      - DATABASE_HOST=mysql
+      - RAILS_ENV=${RAILS_ENV:-development}
+      - NODE_ENV=${RAILS_ENV:-development}
+      - BOOTSNAP_CACHE_DIR=/bundle/bootsnap
+      - WEBPACKER_DEV_SERVER_HOST=webpacker
+      - EDITOR=vi
+    depends_on:
+      - mysql
+
+  runner:
+    <<: *backend
+    ports:
+      - '8030:3000'
+
+  mysql:
+    build:
+      context: .
+      dockerfile: ./.dockerdev/mysql/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+  bundle:
+  node_modules:
+  rails_cache:
+  packs:
