@@ -34,6 +34,13 @@ services:
     ports:
       - '8030:3000'
 
+  nginx:
+    build:
+      context: .
+      dockerfile: ./.dockerdev/nginx/Dockerfile
+    ports:
+      - '8080:80'
+
   mysql:
     build:
       context: .
