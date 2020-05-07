@@ -20,6 +20,7 @@ services:
       - packs:/app/public/packs
     environment:
       # - DATABASE_URL=mysql2://root:root@mysql:3306
+      - DEFAULT_HOST=localhost:8030
       - DATABASE_HOST=mysql
       - RAILS_ENV=${RAILS_ENV:-development}
       - NODE_ENV=${RAILS_ENV:-development}
@@ -29,8 +30,9 @@ services:
     depends_on:
       - mysql
 
-  runner:
+  rails:
     <<: *backend
+    command: bash -c "rm -f tmp/pids/server.pid && rails s -b '0.0.0.0'"
     ports:
       - '8030:3000'
 
@@ -40,6 +42,8 @@ services:
       dockerfile: ./.dockerdev/nginx/Dockerfile
     ports:
       - '8080:80'
+    depends_on:
+      - rails
 
   mysql:
     build:
