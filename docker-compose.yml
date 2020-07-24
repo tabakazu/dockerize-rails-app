@@ -1,62 +1,62 @@
-version: '3.7'
+version: '3.8'
 
 services:
-  app: &app
+  rails: &rails
+    working_dir: /myapp
     build:
       context: .
       dockerfile: ./.dockerdev/rails/Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && rails s -b '0.0.0.0'"
+    stdin_open: true
+    tty: true
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-development}
+      NODE_ENV: ${NODE_ENV:-development}
+      DEFAULT_HOST: localhost:3000
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: ''
+      WEBPACKER_DEV_SERVER_HOST: webpacker
+      WEBPACKER_DEV_SERVER_PUBLIC: 0.0.0.0:3035
+    volumes:
+      - .:/myapp:cached
+      - rails_cache:/myapp/tmp/cache
+      - rails_bundle:/bundle
+      - rails_node_modules:/myapp/node_modules
+      - rails_packs:/myapp/public/packs
+      - /myapp/tmp/pids
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mysql
+      - webpacker
     tmpfs:
       - /tmp
 
-  backend: &backend
-    <<: *app
-    stdin_open: true
-    tty: true
-    volumes:
-      - .:/app:cached
-      - rails_cache:/app/tmp/cache
-      - bundle:/bundle
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-    environment:
-      # - DATABASE_URL=mysql2://root:root@mysql:3306
-      - DEFAULT_HOST=localhost:8030
-      - DATABASE_HOST=mysql
-      - RAILS_ENV=${RAILS_ENV:-development}
-      - NODE_ENV=${RAILS_ENV:-development}
-      - BOOTSNAP_CACHE_DIR=/bundle/bootsnap
-      - WEBPACKER_DEV_SERVER_HOST=webpacker
-      - EDITOR=vi
-    depends_on:
-      - mysql
-
-  rails:
-    <<: *backend
-    command: bash -c "rm -f tmp/pids/server.pid && rails s -b '0.0.0.0'"
+  webpacker:
+    <<: *rails
+    command: ./bin/webpack-dev-server
     ports:
-      - '8030:3000'
-
-  nginx:
-    build:
-      context: .
-      dockerfile: ./.dockerdev/nginx/Dockerfile
-    ports:
-      - '8080:80'
-    depends_on:
-      - rails
+      - '3035:3035'
+    depends_on: []
 
   mysql:
-    build:
-      context: .
-      dockerfile: ./.dockerdev/mysql/Dockerfile
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
     volumes:
       - mysql_data:/var/lib/mysql
 
 volumes:
-  mysql_data:
-  bundle:
-  node_modules:
   rails_cache:
-  packs:
+    driver: local
+  rails_bundle:
+    driver: local
+  rails_node_modules:
+    driver: local
+  rails_packs:
+    driver: local
+  mysql_data:
+    driver: local

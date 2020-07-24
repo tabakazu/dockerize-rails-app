@@ -1,21 +1,16 @@
-# Dockerize Rails Project
+# Dockerize Rails Application
 
 ## Setup
 
 ```bash
 $ docker-compose build
-
-$ docker-compose run --rm --service-ports rails bash
-docker > bundle
-docker > yarn
-docker > rails db:create
-docker > rails db:migrate
+$ docker-compose run --rm rails bin/setup
 ```
 
 ## Starting Rails server ...
 
 ```bash
-$ docker-compose up -d
+$ docker-compose up rails
 ```
 
 ## Remove containers

@@ -1,6 +1,7 @@
 *.rbc
 capybara-*.html
 .rspec
+examples.txt
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /db/*.sqlite3-[0-9]*
@@ -19,7 +20,6 @@ pickle-email-*.html
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb
-config/credentials.yml.enc
 config/master.key
 
 # Only include if you have production secrets in this file, which is no longer a Rails default
@@ -32,9 +32,6 @@ config/master.key
 
 # direnv
 .envrc
-
-# RSpec
-spec/examples.txt
 
 ## Environment normalization:
 /.bundle
@@ -74,3 +71,8 @@ yarn-debug.log*
 /storage/*
 !/storage/.keep
 /public/uploads
+
+# Ignore rails config files in local
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml
