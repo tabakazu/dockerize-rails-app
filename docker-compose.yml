@@ -12,14 +12,11 @@ services:
     environment:
       RAILS_ENV: ${RAILS_ENV:-development}
       NODE_ENV: ${NODE_ENV:-development}
-      DEFAULT_HOST: localhost:3000
-      MYSQL_HOST: mysql
-      MYSQL_PORT: 3306
-      MYSQL_USERNAME: root
-      MYSQL_PASSWORD: ''
+      MYSQL_URL: mysql2://root:@mysql:3306
       REDIS_URL: redis://redis
       WEBPACKER_DEV_SERVER_HOST: webpacker
       WEBPACKER_DEV_SERVER_PUBLIC: 0.0.0.0:3035
+      DEFAULT_HOST: localhost:3000
     volumes:
       - .:/myapp:cached
       - rails_cache:/myapp/tmp/cache

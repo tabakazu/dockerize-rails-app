@@ -13,10 +13,7 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
-  username: <%= ENV.fetch('MYSQL_USERNAME') { 'myapp' } %>
-  password: <%= ENV.fetch('MYSQL_PASSWORD') { 'password' } %>
-  host: <%= ENV.fetch('MYSQL_HOST') { '127.0.0.1' } %>
-  port: <%= ENV.fetch('MYSQL_PORT') { '3306' } %>
+  url: <%= ENV.fetch('MYSQL_URL') { 'mysql2://myapp:password@localhost:3306' } %>
 
 development:
   <<: *default
@@ -51,5 +48,3 @@ test:
 production:
   <<: *default
   database: <%= ENV['DATABASE_NAME'] %>
-  username: <%= ENV['DATABASE_USERNAME'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
