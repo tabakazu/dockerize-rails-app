@@ -17,6 +17,7 @@ services:
       MYSQL_PORT: 3306
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: ''
+      REDIS_URL: redis://redis
       WEBPACKER_DEV_SERVER_HOST: webpacker
       WEBPACKER_DEV_SERVER_PUBLIC: 0.0.0.0:3035
     volumes:
@@ -29,8 +30,9 @@ services:
     ports:
       - '3000:3000'
     depends_on:
-      - mysql
       - webpacker
+      - mysql
+      - redis
     tmpfs:
       - /tmp
 
@@ -49,6 +51,12 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  redis:
+    image: redis:6.0
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
 volumes:
   rails_cache:
     driver: local
@@ -59,4 +67,6 @@ volumes:
   rails_packs:
     driver: local
   mysql_data:
+    driver: local
+  redis_data:
     driver: local

@@ -50,3 +50,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Devise is a flexible authentication solution for Rails based on Warden.
 gem 'devise'
+
+# Provides a full set of stores (Cache, Session, HTTP Cache) for Ruby on Rails.
+gem 'redis-rails'
